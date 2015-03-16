@@ -31,7 +31,12 @@ val json4s = Seq(
   "com.softwaremill.thegarden" %% "garden-json4s" % gardenVersion
 )
 
-libraryDependencies ++= Seq(dispatch) ++ testDependencies ++ logging ++ json4s ++ theGarden
+val metricsCore = "io.dropwizard.metrics" % "metrics-core" % "3.1.0"
+val metricsScala = "nl.grons" %% "metrics-scala" % "3.3.0_a2.3"
+val signalFx = "com.signalfx.public" % "signalfx-codahale" % "0.0.20"
+val metrics = Seq(metricsCore, metricsScala, signalFx)
+
+libraryDependencies ++= Seq(dispatch) ++ testDependencies ++ logging ++ json4s ++ theGarden ++ metrics
 
 cancelable in Global := true
 

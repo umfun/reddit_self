@@ -31,12 +31,6 @@ val json4s = Seq(
   "com.softwaremill.thegarden" %% "garden-json4s" % gardenVersion
 )
 
-/* not used */
-val jodaTime = Seq(
-  "joda-time" % "joda-time" % "2.7",
-  "org.joda" % "joda-convert" % "1.7"
-)
-
 libraryDependencies ++= Seq(dispatch) ++ testDependencies ++ logging ++ json4s ++ theGarden
 
 cancelable in Global := true

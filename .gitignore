@@ -1,2 +1,4 @@
 target
 *.sc
+
+src/test/resources/testing.conf

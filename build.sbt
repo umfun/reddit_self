@@ -24,6 +24,8 @@ val slf4j = "org.slf4j" % "slf4j-api" % "1.7.10"
 val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"
 val logging = Seq(logback, slf4j, scalaLogging)
 
+val typesafeConfig = "com.typesafe" % "config" % "1.2.1"
+
 val json4sVersion = "3.2.11"
 val json4s = Seq(
   "org.json4s" %% "json4s-jackson" % json4sVersion,
@@ -36,7 +38,7 @@ val metricsScala = "nl.grons" %% "metrics-scala" % "3.3.0_a2.3"
 val signalFx = "com.signalfx.public" % "signalfx-codahale" % "0.0.20"
 val metrics = Seq(metricsCore, metricsScala, signalFx)
 
-libraryDependencies ++= Seq(dispatch) ++ testDependencies ++ logging ++ json4s ++ theGarden ++ metrics
+libraryDependencies ++= Seq(dispatch, typesafeConfig) ++ testDependencies ++ logging ++ json4s ++ theGarden ++ metrics
 
 cancelable in Global := true
 

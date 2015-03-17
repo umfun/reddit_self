@@ -11,7 +11,7 @@ import scala.util.control.NonFatal
  * @author Maciej Bilas
  * @since 14/3/15 16:34
  */
-package object apiclient {
+package object redditapi {
 
   implicit val json4sFormats: Formats = {
     val base = new DefaultFormats {

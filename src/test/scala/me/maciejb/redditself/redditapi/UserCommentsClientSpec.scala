@@ -1,5 +1,5 @@
 
-package me.maciejb.redditself.apiclient
+package me.maciejb.redditself.redditapi
 
 import me.maciejb.redditself.Username
 import me.maciejb.redditself.common.RequiresReddit
@@ -13,7 +13,8 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class UserCommentsClientSpec extends FlatSpec with Matchers with ScalaFutures with IntegrationPatience {
 
-  val WayFairer = Username("way_fairer")
+  import UserCommentsClientSpec._
+
   val client = new UserCommentsClient(WayFairer)
 
   it should "fetch user comments from Reddit" taggedAs RequiresReddit in {
@@ -28,4 +29,8 @@ class UserCommentsClientSpec extends FlatSpec with Matchers with ScalaFutures wi
     }
   }
 
+}
+
+object UserCommentsClientSpec {
+  val WayFairer = Username("way_fairer")
 }

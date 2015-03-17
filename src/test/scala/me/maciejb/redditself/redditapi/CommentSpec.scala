@@ -1,4 +1,4 @@
-package me.maciejb.redditself.apiclient
+package me.maciejb.redditself.redditapi
 
 import java.time.LocalDateTime
 
@@ -8,7 +8,7 @@ import org.json4s.jackson.JsonMethods._
 
 class CommentSpec extends FlatSpec with Matchers {
 
-  import me.maciejb.redditself.apiclient.json4sFormats
+  import me.maciejb.redditself.redditapi.json4sFormats
 
   val JsonStr = Resources.readToString("way_fairer_comments.json")
 

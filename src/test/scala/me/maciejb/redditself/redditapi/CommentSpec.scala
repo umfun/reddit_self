@@ -12,7 +12,7 @@ class CommentSpec extends FlatSpec with Matchers {
 
   val JsonStr = Resources.readToString("way_fairer_comments.json")
 
-  val ExampleCommentObject = (parse(JsonStr) \ "data" \ "children" \ "data").children(0)
+  val ExampleCommentObject = (parse(JsonStr) \ "data" \ "children" \ "data").children.head
 
   "json4s formats" should "extract a comment JObject to a valid Comment class" in {
     val comment = ExampleCommentObject.extract[Comment]

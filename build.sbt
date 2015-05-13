@@ -5,14 +5,13 @@ scalaVersion := "2.11.6"
 
 // Resolvers
 resolvers ++= Seq(
-  "SoftwareMill Public Releases" at "https://nexus.softwaremill.com/content/repositories/releases/",
-  "SoftwareMill Public Snapshots" at "https://nexus.softwaremill.com/content/repositories/snapshots/"
+  "Garden repository" at "https://dl.bintray.com/maciej/maven/"
 )
 
 // Dependencies
-val gardenVersion = "0.0.31-SNAPSHOT"
+val gardenVersion = "0.0.33"
 
-val theGarden = Seq("lawn") map {"com.softwaremill.thegarden" %% _ % gardenVersion}
+val garden = Seq("garden-lawn") map {"me.maciejb.garden" %% _ % gardenVersion}
 val macwire = Seq("macros", "runtime") map ("com.softwaremill.macwire" %% _ % "1.0.1")
 
 val dispatch = "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
@@ -31,7 +30,7 @@ val json4sVersion = "3.2.11"
 val json4s = Seq(
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "org.json4s" %% "json4s-ext" % json4sVersion,
-  "com.softwaremill.thegarden" %% "garden-json4s" % gardenVersion
+  "me.maciejb.garden" %% "garden-json4s" % gardenVersion
 )
 
 val metricsCore = "io.dropwizard.metrics" % "metrics-core" % "3.1.0"
@@ -40,7 +39,7 @@ val signalFx = "com.signalfx.public" % "signalfx-codahale" % "0.0.20"
 val metrics = Seq(metricsCore, metricsScala, signalFx)
 
 libraryDependencies ++= Seq(dispatch, typesafeConfig) ++ testDependencies ++ logging ++ json4s ++
-  theGarden ++ macwire ++ metrics
+  garden ++ macwire ++ metrics
 
 cancelable in Global := true
 

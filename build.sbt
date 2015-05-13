@@ -13,6 +13,7 @@ resolvers ++= Seq(
 val gardenVersion = "0.0.31-SNAPSHOT"
 
 val theGarden = Seq("lawn") map {"com.softwaremill.thegarden" %% _ % gardenVersion}
+val macwire = Seq("macros", "runtime") map ("com.softwaremill.macwire" %% _ % "1.0.1")
 
 val dispatch = "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
 
@@ -38,7 +39,8 @@ val metricsScala = "nl.grons" %% "metrics-scala" % "3.3.0_a2.3"
 val signalFx = "com.signalfx.public" % "signalfx-codahale" % "0.0.20"
 val metrics = Seq(metricsCore, metricsScala, signalFx)
 
-libraryDependencies ++= Seq(dispatch, typesafeConfig) ++ testDependencies ++ logging ++ json4s ++ theGarden ++ metrics
+libraryDependencies ++= Seq(dispatch, typesafeConfig) ++ testDependencies ++ logging ++ json4s ++
+  theGarden ++ macwire ++ metrics
 
 cancelable in Global := true
 

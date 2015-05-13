@@ -4,10 +4,10 @@ import me.maciejb.redditself.redditapi.Fullname
 
 private[redditapi] case class QueryParam(name: String, value: String)
 
-object QueryParam {
+private[redditapi] object QueryParam {
   def fromFullname(name: String, valueOpt: Option[Fullname]): Option[QueryParam] =
     for (value <- valueOpt) yield {
-      QueryParam("name", value.v)
+      QueryParam(name, value.v)
     }
 
   def toDispatch(seq: Seq[Option[QueryParam]]): Traversable[(String, String)] =

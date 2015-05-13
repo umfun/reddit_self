@@ -41,13 +41,17 @@ class UserCommentsClient {
     }
   }
 
+  /*
+   * Public API
+   */
+
   def latestComments(user: Username): Future[List[Comment]] = for (listing <- CommentsRequest(user).commentsListing())
     yield {listing.children}
 
   def allComments(user: Username): Future[List[Comment]] = next(user, CommentsRequest(user).commentsListing(), Nil)
 
-  def commentsUntil(user: Username, until: List[Comment] => Boolean): Future[List[Comment]] =
-    next(user, CommentsRequest(user).commentsListing(), Nil, until)
+  def commentsUntil(user: Username, untilPredicate: List[Comment] => Boolean): Future[List[Comment]] =
+    next(user, CommentsRequest(user).commentsListing(), Nil, untilPredicate)
 
 }
 

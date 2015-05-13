@@ -19,9 +19,9 @@ import scala.concurrent.Future
 
 object MetricsReportingApp extends App {
 
-  val commentsClient = new UserCommentsClient(UserCommentsClientSpec.WayFairer)
+  val commentsClient = new UserCommentsClient
 
-  def getComments = Future.sequence((0 to 10).map(_ => commentsClient.comments))
+  def getComments = Future.sequence((0 to 10).map(_ => commentsClient.latestComments(UserCommentsClientSpec.WayFairer)))
 
   def setupMetrics = {
     val logReporter = Slf4jReporter.forRegistry(metricRegistry)
@@ -47,5 +47,6 @@ object MetricsReportingApp extends App {
     reporter.stop()
   }
   }
-  futComments onComplete { _ => Http.shutdown()}
+
+  futComments onComplete { _ => Http.shutdown() }
 }

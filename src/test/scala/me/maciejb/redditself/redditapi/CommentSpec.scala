@@ -3,19 +3,18 @@ package me.maciejb.redditself.redditapi
 import java.time.LocalDateTime
 
 import com.softwaremill.thegarden.lawn.io.Resources
-import org.scalatest.{Matchers, FlatSpec}
+import me.maciejb.redditself.redditapi.RedditResponseExampleJsons.WayFairerComments
 import org.json4s.jackson.JsonMethods._
+import org.scalatest.{FlatSpec, Matchers}
 
 class CommentSpec extends FlatSpec with Matchers {
 
   import me.maciejb.redditself.redditapi.json4sFormats
 
-  val JsonStr = Resources.readToString("way_fairer_comments.json")
-
-  val ExampleCommentObject = (parse(JsonStr) \ "data" \ "children" \ "data").children.head
+  val CommentJObj = (parse(WayFairerComments) \ "data" \ "children" \ "data").children.head
 
   "json4s formats" should "extract a comment JObject to a valid Comment class" in {
-    val comment = ExampleCommentObject.extract[Comment]
+    val comment = CommentJObj.extract[Comment]
 
     import comment._
     archived shouldEqual false
@@ -25,4 +24,23 @@ class CommentSpec extends FlatSpec with Matchers {
     score shouldEqual 31
   }
 
+}
+
+class ListingSpec extends FlatSpec with Matchers {
+
+  val ListingJObj = parse(WayFairerComments)
+
+  "json4s formats" should "extract a listing of comments JObject to a valid Listing[Comment] class" in {
+    val listing = Listing.extractComments(ListingJObj)
+
+    listing.after shouldEqual Some("t1_cosj9wo")
+    listing.before shouldEqual None
+
+    println(listing.children.mkString("\n"))
+  }
+
+}
+
+object RedditResponseExampleJsons {
+  val WayFairerComments = Resources.readToString("way_fairer_comments.json")
 }

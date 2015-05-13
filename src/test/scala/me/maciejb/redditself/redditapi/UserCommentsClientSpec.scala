@@ -15,16 +15,10 @@ class UserCommentsClientSpec extends FlatSpec with Matchers with ScalaFutures wi
 
   import UserCommentsClientSpec._
 
-  val client = new UserCommentsClient(WayFairer)
-
-  it should "fetch user comments from Reddit" taggedAs RequiresReddit in {
-    whenReady(client.commentsJsonStr) { json =>
-      json should include("http://www.reddit.com/")
-    }
-  }
+  val client = new UserCommentsClient
 
   it should "parse user comments from Reddit" taggedAs RequiresReddit in {
-    whenReady(client.comments) { comments =>
+    whenReady(client.latestComments(WayFairer)) { comments =>
       comments.length should be > 0
     }
   }

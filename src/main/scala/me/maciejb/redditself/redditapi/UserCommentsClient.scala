@@ -1,41 +1,56 @@
 package me.maciejb.redditself.redditapi
 
-import java.time.LocalDateTime
-
-import com.softwaremill.thegarden.json4s.serializers.CamelCaseFieldNameDeserializer
 import dispatch.Defaults._
 import dispatch._
 import me.maciejb.redditself.Username
 import me.maciejb.redditself.infrastructure.Instrumented
+import me.maciejb.redditself.redditapi.internal.QueryParam
 import nl.grons.metrics.scala.FutureMetrics
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
 
-class UserCommentsClient(user: Username) extends Instrumented with FutureMetrics {
-  val ReqTimer = "req"
+private[redditapi] case class CommentsRequest(user: Username,
+                                              before: Option[Fullname] = None,
+                                              after: Option[Fullname] = None)
+  extends Instrumented with FutureMetrics {
 
-  val commentsUri = url(s"https://www.reddit.com/user/${user.value}/comments.json")
-
-  def commentsJsonStr: Future[String] = timing(ReqTimer) {Http(commentsUri OK as.String)}
-
-  def comments: Future[List[Comment]] = for (str <- commentsJsonStr) yield {
-    (parse(str) \ "data" \ "children" \ "data").extract[List[Comment]]
+  val commentsUri = {
+    val queryParams = QueryParam.toDispatch(QueryParam.fromFullname("before", before)
+      :: QueryParam.fromFullname("after", after) :: Nil)
+    url(s"https://www.reddit.com/user/${user.value}/comments.json") <<? queryParams
   }
+
+  def commentsListing(): Future[Listing[Comment]] = {
+    for (str <- dispatch()) yield {Listing.extractComments(str)}
+  }
+
+  private def dispatch(): Future[String] =
+    timing(UserCommentsClient.ReqTimer) {Http(commentsUri OK as.String)}
 
 }
 
-case class Comment(id: String, archived: Boolean, author: Username,
-                   body: String, bodyHtml: String,
-                   createdAt: LocalDateTime, linkUrl: String, score: Int)
+class UserCommentsClient {
 
-object Comment {
-
-  private val deserializeDate: PartialFunction[JField, JField] = {
-    case JField("created_utc", JDouble(v)) => JField("createdAt", JString(v.formatted("%.0f")))
+  private def next(user: Username, futureListing: Future[Listing[Comment]], acc: List[Comment],
+                   untilCond: List[Comment] => Boolean = (_) => true): Future[List[Comment]] = {
+    futureListing.flatMap { listing =>
+      val newAcc = acc ::: listing.children
+      (untilCond(newAcc), listing.after) match {
+        case (false, _) | (true, None) => Future {acc}
+        case (true, Some(_)) => next(user,
+          CommentsRequest(user, after = listing.after).commentsListing(), newAcc, untilCond)
+      }
+    }
   }
 
-  val serializer = FieldSerializer[Comment](
-    deserializer = deserializeDate orElse CamelCaseFieldNameDeserializer.deserializer
-  )
+  def latestComments(user: Username): Future[List[Comment]] = for (listing <- CommentsRequest(user).commentsListing())
+    yield {listing.children}
 
+  def allComments(user: Username): Future[List[Comment]] = next(user, CommentsRequest(user).commentsListing(), Nil)
+
+  def commentsUntil(user: Username, until: List[Comment] => Boolean): Future[List[Comment]] =
+    next(user, CommentsRequest(user).commentsListing(), Nil, until)
+
+}
+
+object UserCommentsClient {
+  val ReqTimer = "req"
 }

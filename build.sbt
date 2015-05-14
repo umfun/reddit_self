@@ -38,7 +38,9 @@ val metricsScala = "nl.grons" %% "metrics-scala" % "3.3.0_a2.3"
 val signalFx = "com.signalfx.public" % "signalfx-codahale" % "0.0.20"
 val metrics = Seq(metricsCore, metricsScala, signalFx)
 
-libraryDependencies ++= Seq(dispatch, typesafeConfig) ++ testDependencies ++ logging ++ json4s ++
+val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.2"
+
+libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync) ++ testDependencies ++ logging ++ json4s ++
   garden ++ macwire ++ metrics
 
 cancelable in Global := true

@@ -1,4 +1,4 @@
-package me.maciejb.redditself.common
+package me.maciejb.redditself.commons
 
 
 object HipsterIpsum {

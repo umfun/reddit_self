@@ -1,9 +1,9 @@
 package me.maciejb.redditself.dataaccess.reddit
 
 import com.softwaremill.macwire.Macwire
-import me.maciejb.redditself.personality_insights.InputWordsThresholds
+import me.maciejb.redditself.infrastructure.InfrastructureModule
 import me.maciejb.redditself.redditapi.RedditApiModule
 
-trait DataAccessRedditModule extends Macwire with RedditApiModule {
-  val byUserFetcher = new ByUserFetcher(userCommentsClient, InputWordsThresholds.DesiredWordCount)
+trait DataAccessRedditModule extends Macwire with RedditApiModule with InfrastructureModule {
+  val userCommentFetcher = new UserCommentFetcher(userCommentsClient)
 }

@@ -32,7 +32,6 @@ package object redditapi {
 
     val entitySerializers = List(Comment.serializer)
 
-    entitySerializers.foldLeft(withExt) { (formats, serializer) => formats + serializer}
+    entitySerializers.foldLeft(withExt) { (formats, serializer) => formats + serializer }
   }
-
 }

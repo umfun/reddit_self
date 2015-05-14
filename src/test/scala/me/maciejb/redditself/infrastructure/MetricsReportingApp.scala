@@ -6,7 +6,7 @@ import com.codahale.metrics.Slf4jReporter
 import com.signalfx.codahale.reporter.SignalFxReporter.Builder
 import dispatch.Defaults._
 import dispatch._
-import me.maciejb.redditself.common.TestingConf
+import me.maciejb.redditself.commons.TestingConf
 import me.maciejb.redditself.infrastructure.AppMetricsRegistry.metricRegistry
 import me.maciejb.redditself.redditapi.{UserCommentsClient, UserCommentsClientSpec}
 import org.slf4j.LoggerFactory

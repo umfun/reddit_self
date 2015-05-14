@@ -3,7 +3,7 @@ package me.maciejb.redditself.redditapi
 import org.json4s.JsonAST.{JArray, JField, JValue}
 import org.json4s.jackson.JsonMethods._
 
-case class Listing[T](children: List[T], after: Option[Fullname], before: Option[Fullname])
+case class Listing[T](children: List[T], after: Option[String], before: Option[String])
 
 object Listing {
 

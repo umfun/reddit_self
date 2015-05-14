@@ -2,7 +2,7 @@
 package me.maciejb.redditself.redditapi
 
 import me.maciejb.redditself.Username
-import me.maciejb.redditself.common.RequiresReddit
+import me.maciejb.redditself.commons.RequiresReddit
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{FlatSpec, Matchers}
 

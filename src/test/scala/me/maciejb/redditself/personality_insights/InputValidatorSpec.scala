@@ -1,6 +1,6 @@
 package me.maciejb.redditself.personality_insights
 
-import me.maciejb.redditself.common.HipsterIpsum
+import me.maciejb.redditself.commons.HipsterIpsum
 import org.scalatest.{WordSpec, Matchers, FlatSpec}
 
 

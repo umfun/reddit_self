@@ -1,9 +1,9 @@
-package me.maciejb.redditself.redditapi
+package me.maciejb.redditself.redditapi.dtos
 
 import java.time.LocalDateTime
 
 import com.softwaremill.thegarden.json4s.serializers.CamelCaseFieldNameDeserializer
-import me.maciejb.redditself.Username
+import Username
 import org.json4s._
 
 /**

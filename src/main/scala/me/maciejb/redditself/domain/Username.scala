@@ -1,3 +1,3 @@
-package me.maciejb.redditself.redditapi.domain
+package me.maciejb.redditself.domain
 
 case class Username(value: String) extends AnyVal

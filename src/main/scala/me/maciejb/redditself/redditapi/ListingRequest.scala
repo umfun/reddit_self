@@ -1,6 +1,6 @@
 package me.maciejb.redditself.redditapi
 
-import me.maciejb.redditself.redditapi.domain.Listing
+import me.maciejb.redditself.domain.Listing
 
 import scala.concurrent.Future
 

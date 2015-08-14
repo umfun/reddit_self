@@ -6,7 +6,7 @@ import com.codahale.metrics.Slf4jReporter
 import com.signalfx.codahale.reporter.SignalFxReporter.Builder
 import dispatch.Defaults._
 import dispatch._
-import me.maciejb.redditself.commons.TestingConf
+import me.maciejb.redditself.commons.{Redditers, TestingConf}
 import me.maciejb.redditself.infrastructure.AppMetricsRegistry.metricRegistry
 import me.maciejb.redditself.redditapi.{UserCommentsClient, UserCommentsClientSpec}
 import org.slf4j.LoggerFactory
@@ -21,7 +21,8 @@ object MetricsReportingApp extends App {
 
   val commentsClient = new UserCommentsClient
 
-  def getComments = Future.sequence((0 to 10).map(_ => commentsClient.latestComments(UserCommentsClientSpec.WayFairer)))
+  def getComments = Future.sequence((0 to 10).
+    map(_ => commentsClient.latestComments(Redditers.WayFairer)))
 
   def setupMetrics = {
     val logReporter = Slf4jReporter.forRegistry(metricRegistry)

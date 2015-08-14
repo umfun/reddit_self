@@ -40,11 +40,20 @@ val metrics = Seq(metricsCore, metricsScala, signalFx)
 
 val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.2"
 
+val akkaVersion = "2.3.12"
+val akkaCore = Seq(
+  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+  "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+  "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+)
+
 val akkaStreams = "com.typesafe.akka" %% "akka-stream-experimental" % "1.0"
 val akkaHttpCore = "com.typesafe.akka" %% "akka-http-core-experimental" % "1.0"
 
-libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync, akkaStreams) ++ testDependencies ++ logging ++ json4s ++
-  garden ++ macwire ++ metrics
+val akka = akkaCore ++ Seq(akkaStreams, akkaHttpCore)
+
+libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync) ++ testDependencies ++ logging ++ json4s ++
+  garden ++ macwire ++ metrics ++ akka
 
 cancelable in Global := true
 

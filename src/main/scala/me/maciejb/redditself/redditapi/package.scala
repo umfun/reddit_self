@@ -3,7 +3,7 @@ package me.maciejb.redditself
 import java.util.Date
 
 import com.softwaremill.thegarden.json4s.serializers.{StandardizeFieldNames, JavaTimeSerializers}
-import me.maciejb.redditself.redditapi.dtos.Comment
+import me.maciejb.redditself.redditapi.domain.Comment
 import org.json4s._
 
 import scala.util.control.NonFatal

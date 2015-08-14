@@ -1,4 +1,4 @@
-package me.maciejb.redditself.redditapi.dtos
+package me.maciejb.redditself.redditapi.domain
 
 import java.time.LocalDateTime
 

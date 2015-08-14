@@ -5,7 +5,8 @@ scalaVersion := "2.11.7"
 
 // Resolvers
 resolvers ++= Seq(
-  "Garden repository" at "https://dl.bintray.com/maciej/maven/"
+  "Garden repository" at "https://dl.bintray.com/maciej/maven/",
+  "hseeberger at bintray" at "http://dl.bintray.com/hseeberger/maven"
 )
 
 // Dependencies
@@ -49,8 +50,10 @@ val akkaCore = Seq(
 
 val akkaStreams = "com.typesafe.akka" %% "akka-stream-experimental" % "1.0"
 val akkaHttpCore = "com.typesafe.akka" %% "akka-http-core-experimental" % "1.0"
+// https://github.com/hseeberger/akka-http-json
+val akkaHttpJson4s = "de.heikoseeberger" %% "akka-http-json4s" % "1.0.0"
 
-val akka = akkaCore ++ Seq(akkaStreams, akkaHttpCore)
+val akka = akkaCore ++ Seq(akkaStreams, akkaHttpCore, akkaHttpJson4s)
 
 libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync) ++ testDependencies ++ logging ++ json4s ++
   garden ++ macwire ++ metrics ++ akka

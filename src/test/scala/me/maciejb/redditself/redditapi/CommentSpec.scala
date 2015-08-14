@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 import com.softwaremill.thegarden.lawn.io.Resources
 import me.maciejb.redditself.redditapi.RedditResponseExampleJsons.WayFairerComments
-import me.maciejb.redditself.redditapi.dtos.{Listing, Comment}
+import me.maciejb.redditself.redditapi.domain.{Listing, Comment}
 import org.json4s.jackson.JsonMethods._
 import org.scalatest.{FlatSpec, Matchers}
 

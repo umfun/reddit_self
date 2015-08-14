@@ -4,7 +4,7 @@ import me.maciejb.redditself.personality_insights.InputWordsThresholds
 import me.maciejb.redditself.redditapi.UserCommentsClient
 
 import me.maciejb.redditself.commons.StringExtensions._
-import me.maciejb.redditself.redditapi.dtos.{Username, Comment}
+import me.maciejb.redditself.redditapi.domain.{Username, Comment}
 
 import scala.concurrent.{ExecutionContext, Future}
 

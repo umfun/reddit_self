@@ -1,6 +1,6 @@
 package me.maciejb.redditself.commons
 
-import me.maciejb.redditself.redditapi.dtos.Username
+import me.maciejb.redditself.redditapi.domain.Username
 
 
 object Redditers {

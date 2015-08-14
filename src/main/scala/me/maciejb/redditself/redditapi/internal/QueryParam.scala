@@ -1,6 +1,6 @@
 package me.maciejb.redditself.redditapi.internal
 
-import me.maciejb.redditself.redditapi.dtos.Fullname
+import me.maciejb.redditself.redditapi.domain.Fullname
 
 private[redditapi] case class QueryParam(name: String, value: String)
 

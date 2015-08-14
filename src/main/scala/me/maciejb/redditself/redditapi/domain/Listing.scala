@@ -1,4 +1,4 @@
-package me.maciejb.redditself.redditapi.dtos
+package me.maciejb.redditself.redditapi.domain
 
 import org.json4s.JsonAST.{JArray, JField, JValue}
 import org.json4s.jackson.JsonMethods._

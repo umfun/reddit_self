@@ -8,7 +8,7 @@ import dispatch.Defaults._
 import dispatch._
 import me.maciejb.redditself.commons.{Redditers, TestingConf}
 import me.maciejb.redditself.infrastructure.AppMetricsRegistry.metricRegistry
-import me.maciejb.redditself.redditapi.{UserCommentsClient, UserCommentsClientSpec}
+import me.maciejb.redditself.redditapi.UserCommentsClient
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future

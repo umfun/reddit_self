@@ -1,7 +1,7 @@
 organization := "me.maciejb.reddit"
 name := "reddit_self"
 version := "1.0"
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 // Resolvers
 resolvers ++= Seq(
@@ -9,10 +9,10 @@ resolvers ++= Seq(
 )
 
 // Dependencies
-val gardenVersion = "0.0.33"
+val gardenVersion = "0.0.38"
 
 val garden = Seq("garden-lawn") map {"me.maciejb.garden" %% _ % gardenVersion}
-val macwire = Seq("macros", "runtime") map ("com.softwaremill.macwire" %% _ % "1.0.1")
+val macwire = Seq("macros", "runtime") map ("com.softwaremill.macwire" %% _ % "1.0.5")
 
 val dispatch = "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
 
@@ -20,13 +20,13 @@ val scalaTest = "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 val testDependencies = Seq(scalaTest)
 
 val logback = "ch.qos.logback" % "logback-classic" % "1.1.1"
-val slf4j = "org.slf4j" % "slf4j-api" % "1.7.10"
+val slf4j = "org.slf4j" % "slf4j-api" % "1.7.12"
 val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"
 val logging = Seq(logback, slf4j, scalaLogging)
 
-val typesafeConfig = "com.typesafe" % "config" % "1.2.1"
+val typesafeConfig = "com.typesafe" % "config" % "1.3.0"
 
-val json4sVersion = "3.2.11"
+val json4sVersion = "3.3.0.RC3"
 val json4s = Seq(
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "org.json4s" %% "json4s-ext" % json4sVersion,
@@ -40,7 +40,10 @@ val metrics = Seq(metricsCore, metricsScala, signalFx)
 
 val scalaAsync = "org.scala-lang.modules" %% "scala-async" % "0.9.2"
 
-libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync) ++ testDependencies ++ logging ++ json4s ++
+val akkaStreams = "com.typesafe.akka" %% "akka-stream-experimental" % "1.0"
+val akkaHttpCore = "com.typesafe.akka" %% "akka-http-core-experimental" % "1.0"
+
+libraryDependencies ++= Seq(dispatch, typesafeConfig, scalaAsync, akkaStreams) ++ testDependencies ++ logging ++ json4s ++
   garden ++ macwire ++ metrics
 
 cancelable in Global := true

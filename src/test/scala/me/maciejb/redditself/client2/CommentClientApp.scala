@@ -17,7 +17,7 @@ object CommentClientApp extends App {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer(ActorMaterializerSettings(system))
 
-  val fut = new CommentsClient().recentCommentsOf(Redditers.WayFairer)
+  val fut = new CommentsClient().recentComments(Redditers.WayFairer)
   fut.shutdownOnComplete()
 
   val result = Await.result(fut, 10.seconds)

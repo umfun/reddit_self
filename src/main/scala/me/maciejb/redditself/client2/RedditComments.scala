@@ -21,26 +21,33 @@ class RedditComments()(implicit system: ActorSystem,
 
   private val connectionPool = RedditApi.connectionPool[Request]
 
-  private lazy val unmarshalCommentsListingFlow: Flow[(Try[HttpResponse], Request), (Listing[Comment], Request), Unit] =
-    Flow[(Try[HttpResponse], Request)].mapAsync(UnmarshallingParallelism) { case (triedResp, request) =>
-      triedResp match {
-        case Success(resp) =>
-          resp.status match {
-            case StatusCodes.OK =>
-              Unmarshal(resp.entity).to[JValue].map(jv => (Listing.extractComments(jv), request))
-            case _ =>
-              val error = s"RedditAPI request failed with status code ${resp.status} and entity ${resp.entity}."
-              Future.failed(new IOException(error))
-          }
-        case Failure(e) => sys.error(s"RedditAPI request failed.")
-      }
+  private lazy val unmarshalFlow =
+    Flow[(HttpEntity, Request)].mapAsync(UnmarshallingParallelism) { case (entity, req) =>
+      Unmarshal(entity).to[JValue].map(jv => (Listing.extractComments(jv), req))
+    }
+
+  private lazy val handleResponseFlow: Flow[(Try[HttpResponse], Request), (HttpEntity, Request), Unit] =
+    Flow[(Try[HttpResponse], Request)].map {
+      case (triedResp, req) =>
+        triedResp match {
+          case Success(resp) =>
+            resp.status match {
+              case StatusCodes.OK =>
+                (resp.entity, req)
+              case _ =>
+                val error = s"RedditAPI request failed with status code ${resp.status} and entity ${resp.entity}."
+                throw new IOException(error)
+            }
+          case Failure(e) =>
+            sys.error(s"RedditAPI request failed.")
+        }
     }
 
   lazy val all: Flow[Username, Comment, Unit] = Flow() { implicit b =>
     import FlowGraph.Implicits._
 
     val inFlow = b.add(Flow[Username].map(Request(_)))
-    val reqFlow = b.add(reqRespFlow)
+    val reqFlow = b.add(requestFlow)
     val mergeReqs = b.add(Merge[Request](2))
 
     val splitListing =
@@ -70,12 +77,13 @@ class RedditComments()(implicit system: ActorSystem,
   private lazy val foldComments: Flow[Comment, List[Comment], Unit] =
     Flow[Comment].fold(List[Comment]())((acc, comment) => comment :: acc)
 
-  lazy val reqRespFlow: Flow[Request, (Listing[Comment], Request), Unit] = Flow[Request].map(_.toRequestWithContext)
+  lazy val requestFlow: Flow[Request, (Listing[Comment], Request), Unit] = Flow[Request].map(_.toRequestWithContext)
     .via(connectionPool)
-    .via(unmarshalCommentsListingFlow)
+    .via(handleResponseFlow)
+    .via(unmarshalFlow)
 
   lazy val recentCommentsFlow: Flow[Username, Comment, Unit] =
-    Flow[Username].map(Request(_)).via(reqRespFlow).map(_._1).mapConcat(_.children)
+    Flow[Username].map(Request(_)).via(requestFlow).map(_._1).mapConcat(_.children)
 
   def recentComments(username: Username): Future[List[Comment]] = {
     Source.single(username).via(recentCommentsFlow).via(foldComments).runWith(Sink.head)

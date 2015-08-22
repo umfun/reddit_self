@@ -4,6 +4,8 @@ We do cool metrics based on data from Reddit.
 
 ## Development
 
+[GitHub project page](https://github.com/umfun/reddit_self)
+
 ### Code stack
 * [Akka Streams](http://doc.akka.io/docs/akka-stream-and-http-experimental/1.0/scala.html)
 

@@ -1,6 +1,6 @@
 package me.maciejb.redditself.commons
 
-import me.maciejb.redditself.domain.Username
+import me.maciejb.redditself.model.Username
 
 
 object Redditers {

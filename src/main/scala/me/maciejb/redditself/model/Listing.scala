@@ -1,9 +1,13 @@
-package me.maciejb.redditself.domain
+package me.maciejb.redditself.model
 
 import org.json4s.JsonAST.{JArray, JField, JValue}
 import org.json4s.jackson.JsonMethods._
 
-case class Listing[T](children: List[T], after: Option[String], before: Option[String])
+case class Listing[T](children: List[T], after: Option[String], before: Option[String]) {
+  def beforeFN = before.map(Fullname)
+  def afterFN = after.map(Fullname)
+
+}
 
 object Listing {
 
@@ -17,6 +21,11 @@ object Listing {
       case JField("children", children) =>
         JField("children", JArray(children.children.map(_ \ "data")))
     }
+  }
+
+  /* type madness! */
+  def forwardUnzipper[T, Context]: (((Listing[T], Context)) => (List[T], (Option[Fullname], Context))) = {
+    case (listing, context) => (listing.children, (listing.afterFN, context))
   }
 
 }

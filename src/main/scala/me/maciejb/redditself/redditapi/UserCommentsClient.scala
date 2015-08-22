@@ -2,7 +2,7 @@ package me.maciejb.redditself.redditapi
 
 import dispatch.Defaults._
 import dispatch._
-import me.maciejb.redditself.domain.{Fullname, Listing, Comment, Username}
+import me.maciejb.redditself.model.{Fullname, Listing, Comment, Username}
 import me.maciejb.redditself.infrastructure.Instrumented
 import me.maciejb.redditself.redditapi.internal.QueryParam
 import nl.grons.metrics.scala.FutureMetrics

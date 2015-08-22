@@ -1,6 +1,6 @@
 package me.maciejb.redditself.dataaccess.reddit
 
-import me.maciejb.redditself.domain.{Comment, Username}
+import me.maciejb.redditself.model.{Comment, Username}
 import me.maciejb.redditself.personality_insights.InputWordsThresholds
 import me.maciejb.redditself.redditapi.UserCommentsClient
 
